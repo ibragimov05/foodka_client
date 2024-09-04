@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:foodka_client/navigation/router.dart';
 
-import 'utils/gen/fonts.gen.dart';
+import '../theme/theme.dart';
+import '../navigation/router.dart';
 
 class App extends StatefulWidget {
   const App({super.key});
@@ -16,7 +16,9 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      theme: ThemeData(fontFamily: FontFamily.yandexSans),
+      debugShowCheckedModeBanner: false,
+      theme: FoodkaTheme.light,
+      darkTheme: FoodkaTheme.dark,
       routerConfig: _appRouter.config(),
     );
   }

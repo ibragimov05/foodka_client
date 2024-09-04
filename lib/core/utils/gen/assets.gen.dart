@@ -40,6 +40,9 @@ class $AssetsIconsGen {
   /// Directory path: assets/icons/food
   $AssetsIconsFoodGen get food => const $AssetsIconsFoodGen();
 
+  /// File path: assets/icons/google.svg
+  SvgGenImage get google => const SvgGenImage('assets/icons/google.svg');
+
   /// File path: assets/icons/iconc1.png
   AssetGenImage get iconc1 => const AssetGenImage('assets/icons/iconc1.png');
 
@@ -48,6 +51,9 @@ class $AssetsIconsGen {
 
   /// File path: assets/icons/location.svg
   SvgGenImage get location => const SvgGenImage('assets/icons/location.svg');
+
+  /// File path: assets/icons/logo.svg
+  SvgGenImage get logo => const SvgGenImage('assets/icons/logo.svg');
 
   /// File path: assets/icons/map.svg
   SvgGenImage get map => const SvgGenImage('assets/icons/map.svg');
@@ -80,9 +86,11 @@ class $AssetsIconsGen {
         edit,
         eyeSlash,
         eye,
+        google,
         iconc1,
         iconc2,
         location,
+        logo,
         map,
         remove,
         search300,

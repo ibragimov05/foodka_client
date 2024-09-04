@@ -1,5 +1,9 @@
 class AppConstants {
-  AppConstants._();
+  AppConstants._private();
 
-  static const String baseUrl = '';
+  static final AppConstants _instance = AppConstants._private();
+
+  factory AppConstants() => _instance;
+
+  static const String appName = 'Foodka';
 }
