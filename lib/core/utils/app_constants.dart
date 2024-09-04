@@ -1,7 +1,7 @@
 class AppConstants {
-  AppConstants._private();
+  const AppConstants._private();
 
-  static final AppConstants _instance = AppConstants._private();
+  static const AppConstants _instance = AppConstants._private();
 
   factory AppConstants() => _instance;
 

@@ -10,8 +10,7 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i4;
 import 'package:foodka_client/features/auth/login/ui/login_page.dart' as _i1;
-import 'package:foodka_client/features/auth/sign_up/ui/signup_page.dart'
-    as _i2;
+import 'package:foodka_client/features/auth/sign_up/ui/signup_page.dart' as _i2;
 import 'package:foodka_client/features/splash/splash_screen.dart' as _i3;
 
 /// generated route for

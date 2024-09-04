@@ -11,6 +11,4 @@ class LoginState with _$LoginState {
   }) = _LoginState;
 
   const LoginState._();
-
-// You can add helper methods if needed
 }

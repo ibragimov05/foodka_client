@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
+  const AppColors._private();
+
+  static const AppColors _instance = AppColors._private();
+
+  factory AppColors() => _instance;
+
   static const Color foodkaWhite = Color(0xFFFFFFFF);
   static const Color foodkaTransparent = Colors.transparent;
 

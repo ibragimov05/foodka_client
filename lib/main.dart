@@ -4,8 +4,9 @@ import 'core/app.dart';
 import 'app_config.dart';
 
 void main() async {
-  AppConfig.setUp();
-  AppConfig.dependencySetUp();
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await AppConfig.dependencySetUp();
 
   runApp(const App());
 }

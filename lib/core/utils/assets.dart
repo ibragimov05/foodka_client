@@ -1,9 +1,9 @@
 import 'gen/assets.gen.dart';
 
 class AppAssets {
-  AppAssets._private();
+  const AppAssets._private();
 
-  static final AppAssets _instance = AppAssets._private();
+  static const AppAssets _instance = AppAssets._private();
 
   factory AppAssets() => _instance;
 
