@@ -1,0 +1,64 @@
+<resources>
+    <color name="white">#FFFFFFFF</color>
+    <color name="transparent">#00000000</color>
+
+    <color name="brand900">#F1A50E</color>
+    <color name="brand800">#F9AC13</color>
+    <color name="brand700">#FCB321</color>
+    <color name="brand600">#FFBC37</color>
+    <color name="brand500">#FFC34A</color>
+    <color name="brand400">#FFCB63</color>
+    <color name="brand300">#FFD278</color>
+    <color name="brand200">#FFDB93</color>
+    <color name="brand100">#FFE9BE</color>
+
+    <color name="info900">#002885</color>
+    <color name="info800">#0041A8</color>
+    <color name="info700">#0057C2</color>
+    <color name="info600">#006FD6</color>
+    <color name="info500">#0095FF</color>
+    <color name="info400">#42AAFF</color>
+    <color name="info300">#94CBFF</color>
+    <color name="info200">#C7E2FF</color>
+    <color name="info100">#F2F8FF</color>
+
+    <color name="success900">#004A45</color>
+    <color name="success800">#007D6C</color>
+    <color name="success700">#00997A</color>
+    <color name="success600">#00B887</color>
+    <color name="success500">#00D68F</color>
+    <color name="success400">#2CE59B</color>
+    <color name="success300">#8CFAC7</color>
+    <color name="success200">#CCFCE3</color>
+    <color name="success100">#F0FFF5</color>
+
+    <color name="warning900">#CC3317</color>
+    <color name="warning800">#D0442A</color>
+    <color name="warning700">#D94D33</color>
+    <color name="warning600">#E75438</color>
+    <color name="warning500">#FF6345</color>
+    <color name="warning400">#FD7B62</color>
+    <color name="warning300">#FD7B62</color>
+    <color name="warning200">#FFC5BA</color>
+    <color name="warning100">#FFE7E2</color>
+
+    <color name="error900">#700940</color>
+    <color name="error800">#94124E</color>
+    <color name="error700">#B81D5B</color>
+    <color name="error600">#DB2C66</color>
+    <color name="error500">#FF3D71</color>
+    <color name="error400">#FF708D</color>
+    <color name="error300">#FFA8B4</color>
+    <color name="error200">#FFD6D9</color>
+    <color name="error100">#FFF2F2</color>
+
+    <color name="greyscale900">#101426</color>
+    <color name="greyscale800">#151A30</color>
+    <color name="greyscale700">#192038</color>
+    <color name="greyscale600">#222B45</color>
+    <color name="greyscale500">#2E3A59</color>
+    <color name="greyscale400">#8F9BB3</color>
+    <color name="greyscale300">#C5CEE0</color>
+    <color name="greyscale200">#E4E9F2</color>
+    <color name="greyscale100">#EDF1F7</color>
+</resources>

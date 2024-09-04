@@ -7,3 +7,4 @@ class Assets {
   static const $AssetsIconsFoodGen foods = $AssetsIconsFoodGen();
   static const $AssetsIconsTabBoxGen tabBox = $AssetsIconsTabBoxGen();
 }
+

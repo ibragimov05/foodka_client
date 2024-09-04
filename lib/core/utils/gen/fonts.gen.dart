@@ -10,6 +10,6 @@
 class FontFamily {
   FontFamily._();
 
-  /// Font family: WorkSans
-  static const String workSans = 'WorkSans';
+  /// Font family: YandexSans
+  static const String yandexSans = 'YandexSans';
 }
