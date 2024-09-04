@@ -3,7 +3,6 @@ import 'package:foodka_client/core/utils/app_colors.dart';
 
 import '../../widgets/widgets.dart';
 
-
 class AuthButton extends StatelessWidget {
   final String buttonLabel;
   final void Function() onTap;

@@ -48,6 +48,8 @@ dependencies:
   talker_dio_logger: ^4.4.1
   equatable: ^2.0.5
   formz: ^0.7.0
+  flutter_dotenv: ^5.1.0
+  flutter_secure_storage: ^4.2.1
 
 dev_dependencies:
   flutter_test:
@@ -72,6 +74,7 @@ flutter:
     - assets/icons/
     - assets/icons/tab_box/
     - assets/icons/food/
+    - .env
 
   fonts:
     - family: YandexSans

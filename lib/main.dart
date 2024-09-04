@@ -6,7 +6,7 @@ import 'app_config.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await AppConfig.dependencySetUp();
+  await AppConfig.setUp();
 
   runApp(const App());
 }

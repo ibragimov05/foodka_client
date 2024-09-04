@@ -1,56 +1,126 @@
-// class AuthDioService {
-//   Future<User> _authenticate({
-//     required String email,
-//     required String password,
-//     required String query,
-//   }) async {
-//     String url =
-//         "https://identitytoolkit.googleapis.com/v1/accounts:$query?key=AIzaSyBETfX8XDGAJBdBzkRZY68vBBeIYO0HWT0";
-//
-//     try {
-//       final response = await _dio.post(
-//         url,
-//         data: {
-//           "email": email,
-//           "password": password,
-//           "returnSecureToken": true,
-//         },
-//       );
-//
-//       if (response.statusCode == 200) {
-//         final data = response.data;
-//         final user = User.fromJson(data);
-//         _saveUserData(user);
-//         return user;
-//       }
-//
-//       throw (response.data['error ']['message']);
-//     } on DioException catch (e) {
-//       if (e.response != null) {
-//         throw (e.response?.data['error']['message'] ?? 'An error occurred');
-//       } else {
-//         throw ('An error occurred: ${e.message}');
-//       }
-//     }
-//   }
-//
-//   Future<User> register({
-//     required String email,
-//     required String password,
-//   }) async =>
-//       await _authenticate(
-//         email: email,
-//         password: password,
-//         query: "signUp",
-//       );
-//
-//   Future<User> login({
-//     required String email,
-//     required String password,
-//   }) async =>
-//       await _authenticate(
-//         email: email,
-//         password: password,
-//         query: "signInWithPassword",
-//       );
-// }
+import 'dart:convert';
+
+import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+import '../shared_prefs/user_secrets_prefs_service.dart';
+import '../../models/user_secrets_model/user_secrets.dart';
+
+class AuthenticationRepository {
+  final Dio _dio = Dio();
+  final UserSecretsLocalStorageService _localStorageService =
+      UserSecretsLocalStorageService();
+
+  final String _authKey = dotenv.get('FIREBASE_AUTH_KEY');
+  final String _baseUrl = 'https://identitytoolkit.googleapis.com/v1';
+
+  /// Authenticate user [login] or [register]
+  Future<UserSecrets> _authenticate({
+    required String email,
+    required String password,
+    required String query,
+  }) async {
+    final String url = "$_baseUrl/accounts:$query?key=$_authKey";
+
+    try {
+      final response = await _dio.post(
+        url,
+        data: {
+          "email": email,
+          "password": password,
+          "returnSecureToken": true,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final user = UserSecrets.fromJson(response.data);
+        await _localStorageService.saveUserSecrets(jsonEncode(user.toJson()));
+        return user;
+      } else {
+        throw Exception(response.data['error']['message']);
+      }
+    } on DioException catch (e) {
+      final errorMessage =
+          e.response?.data['error']['message'] ?? 'An error occurred';
+      throw Exception(errorMessage);
+    } catch (e) {
+      throw Exception('Unexpected error: ${e.toString()}');
+    }
+  }
+
+  /// register user
+  Future<UserSecrets> register({
+    required String email,
+    required String password,
+  }) async {
+    return _authenticate(
+      email: email,
+      password: password,
+      query: "signUp",
+    );
+  }
+
+  /// login user
+  Future<UserSecrets> login({
+    required String email,
+    required String password,
+  }) async {
+    return _authenticate(
+      email: email,
+      password: password,
+      query: "signInWithPassword",
+    );
+  }
+
+  Future<void> clearTokens() async => _localStorageService.clearUserSecrets();
+
+  Future<UserSecrets?> checkTokenExpiry() async {
+    final userSecrets = await _localStorageService.getUserSecrets();
+
+    if (userSecrets == null) return null;
+
+    final user = jsonDecode(userSecrets);
+    final expiryDate = DateTime.parse(user['expiresIn']);
+
+    if (DateTime.now().isBefore(expiryDate)) {
+      return UserSecrets.fromJson(user);
+    } else {
+      final updatedUser = await _refreshToken(user);
+      await _localStorageService.saveUserSecrets(jsonEncode(updatedUser));
+      return UserSecrets.fromJson(updatedUser);
+    }
+  }
+
+  Future<Map<String, dynamic>> _refreshToken(Map<String, dynamic> user) async {
+    final String url =
+        "https://securetoken.googleapis.com/v1/token?key=$_authKey";
+
+    try {
+      final response = await _dio.post(
+        url,
+        data: {
+          "grant_type": "refresh_token",
+          "refresh_token": user['refreshToken'],
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final data = response.data;
+        user['refreshToken'] = data['refresh_token'];
+        user['idToken'] = data['id_token'];
+        user['expiresIn'] = DateTime.now()
+            .add(Duration(seconds: int.parse(data['expires_in'])))
+            .toIso8601String();
+        return user;
+      } else {
+        throw Exception(response.data['error']['message']);
+      }
+    } on DioException catch (e) {
+      final errorMessage =
+          e.response?.data['error']['message'] ?? 'Failed to refresh token';
+      throw Exception(errorMessage);
+    } catch (e) {
+      throw Exception('Unexpected error: ${e.toString()}');
+    }
+  }
+}
