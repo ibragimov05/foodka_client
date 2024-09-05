@@ -12,14 +12,14 @@ class UserSecretsLocalStorageService {
 
   factory UserSecretsLocalStorageService() => _instance;
 
-  static const String _tokenKey = '__user_secrets__';
+  static const String _userSecretsKey = '__user_secrets__';
 
   static final FlutterSecureStorage _secureStorage =
       getIt<FlutterSecureStorage>();
 
   /// Get all user secrets and return it
-  Future<UserSecrets?> get userSecrets async {
-    final data = await _secureStorage.read(key: _tokenKey);
+  static Future<UserSecrets?> get userSecrets async {
+    final data = await _secureStorage.read(key: _userSecretsKey);
 
     if (data == null) return null;
 
@@ -30,7 +30,7 @@ class UserSecretsLocalStorageService {
 
   /// Method to get user's token
   static Future<String?> get refreshToken async {
-    final data = await _secureStorage.read(key: _tokenKey);
+    final data = await _secureStorage.read(key: _userSecretsKey);
 
     if (data == null) return null;
 
@@ -40,10 +40,10 @@ class UserSecretsLocalStorageService {
   }
 
   /// Get user secrets and save it to local storage
-  Future<void> saveUserSecrets(String userSecrets) async =>
-      _secureStorage.write(key: _tokenKey, value: userSecrets);
+  static Future<void> saveUserSecrets(String userSecrets) async =>
+      _secureStorage.write(key: _userSecretsKey, value: userSecrets);
 
   /// Clear user secrets from local storage
-  Future<void> clearUserSecrets() async =>
-      _secureStorage.delete(key: _tokenKey);
+  static Future<void> clearUserSecrets() async =>
+      _secureStorage.delete(key: _userSecretsKey);
 }

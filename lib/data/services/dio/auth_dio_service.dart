@@ -8,8 +8,6 @@ import '../../models/user_secrets_model/user_secrets.dart';
 
 class AuthDioService {
   final Dio _dio = Dio();
-  final UserSecretsLocalStorageService _localStorageService =
-      UserSecretsLocalStorageService();
 
   final String _authKey = dotenv.get('FIREBASE_AUTH_KEY');
   final String _baseUrl = 'https://identitytoolkit.googleapis.com/v1';
@@ -43,7 +41,8 @@ class AuthDioService {
           response.data,
         );
 
-        await _localStorageService.saveUserSecrets(jsonEncode(user.toJson()));
+        await UserSecretsLocalStorageService.saveUserSecrets(
+            jsonEncode(user.toJson()));
 
         return user;
       } else {
@@ -80,10 +79,11 @@ class AuthDioService {
         query: "signInWithPassword",
       );
 
-  Future<void> clearTokens() async => _localStorageService.clearUserSecrets();
+  Future<void> clearTokens() async =>
+      UserSecretsLocalStorageService.clearUserSecrets();
 
   Future<UserSecrets?> checkTokenExpiry() async {
-    final userSecrets = await _localStorageService.userSecrets;
+    final userSecrets = await UserSecretsLocalStorageService.userSecrets;
 
     if (userSecrets == null) return null;
 
@@ -92,7 +92,8 @@ class AuthDioService {
     } else {
       final updatedUser = await _refreshToken(userSecrets.toJson());
 
-      await _localStorageService.saveUserSecrets(jsonEncode(updatedUser));
+      await UserSecretsLocalStorageService.saveUserSecrets(
+          jsonEncode(updatedUser));
 
       return UserSecrets.fromJson(updatedUser);
     }
@@ -130,5 +131,4 @@ class AuthDioService {
       throw Exception('Unexpected error: ${e.toString()}');
     }
   }
-
 }

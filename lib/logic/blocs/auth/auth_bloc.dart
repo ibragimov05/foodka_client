@@ -1,56 +1,58 @@
 import 'package:bloc/bloc.dart';
+import 'package:foodka_client/app_config.dart';
+import 'package:foodka_client/data/models/models.dart';
+import 'package:foodka_client/data/services/services.dart';
+import 'package:foodka_client/logic/blocs/blocs.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../data/models/models.dart';
 import '../../../data/repositories/repositories.dart';
 
 part 'auth_event.dart';
-
 part 'auth_state.dart';
-
 part 'auth_bloc.freezed.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRepository _authRepository;
-  final UserRepository _userRepository;
 
   AuthBloc({
     required AuthRepository authRepository,
-    required UserRepository userRepository,
   })  : _authRepository = authRepository,
-        _userRepository = userRepository,
         super(const AuthState()) {
     on<AuthEvent>(
       (AuthEvent events, Emitter<AuthState> emit) => events.map(
-        login: (LoginEvent event) => _login(event, emit),
-        googleAuth: (GoogleAuthLogin event) => _googleAuth(event, emit),
-        signup: (SignupEvent event) => _signup(event, emit),
+        login: (LoginEvent event) => _onLogin(event, emit),
+        googleAuth: (GoogleAuthLogin event) => _onGoogleAuth(event, emit),
+        signup: (SignupEvent event) => _onSignup(event, emit),
         resetPassword: (ResetPasswordEvent event) =>
-            _resetPassword(event, emit),
+            _onResetPassword(event, emit),
         checkTokenExpiry: (CheckTokenExpiryEvent event) =>
-            _checkTokenExpiry(event, emit),
-        logOut: (LogoutEvent event) => _logOut(event, emit),
+            _onCheckTokenExpiry(event, emit),
+        logOut: (LogoutEvent event) => _onLogOut(event, emit),
       ),
     );
   }
 
-  Future<void> _login(
+  Future<void> _onLogin(
     LoginEvent event,
     Emitter<AuthState> emit,
   ) async {
     emit(state.copyWith(authStatus: AuthStatus.loading));
 
     try {
-      final data = await _authRepository.login(
+      await _authRepository.login(
         email: event.email,
         password: event.password,
       );
 
+      getIt.get<UserBloc>().add(const UserEvent.get());
+
       emit(state.copyWith(authStatus: AuthStatus.authenticated));
-    } catch (_) {}
+    } catch (e) {
+      emit(state.copyWith(authStatus: AuthStatus.error, error: e.toString()));
+    }
   }
 
-  Future<void> _googleAuth(
+  Future<void> _onGoogleAuth(
     GoogleAuthLogin event,
     Emitter<AuthState> emit,
   ) async {
@@ -61,7 +63,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  Future<void> _signup(
+  Future<void> _onSignup(
     SignupEvent event,
     Emitter<AuthState> emit,
   ) async {
@@ -73,28 +75,22 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         password: event.password,
       );
 
-      final dioResponse = await _userRepository.addUser(
-        userAddRequest: UserAddRequest(
-          uid: userSecrets.localId,
-          name: event.name,
-          email: event.email,
-        ),
-      );
+      getIt.get<UserBloc>().add(UserEvent.add(
+            userAddRequest: UserAddRequest(
+              uid: userSecrets.localId,
+              name: event.name,
+              email: event.email,
+            ),
+          ));
+      getIt.get<UserBloc>().add(const UserEvent.get());
 
-      if (dioResponse.isSuccess && dioResponse.errorMessage.isEmpty) {
-        emit(state.copyWith(
-          user: dioResponse.data,
-          authStatus: AuthStatus.authenticated,
-        ));
-      } else {
-        throw 'error: {status_code: ${dioResponse.errorStatusCode}, "message": ${dioResponse.errorMessage}';
-      }
+      emit(state.copyWith(authStatus: AuthStatus.authenticated));
     } catch (e) {
       emit(state.copyWith(authStatus: AuthStatus.error, error: e.toString()));
     }
   }
 
-  Future<void> _resetPassword(
+  Future<void> _onResetPassword(
     ResetPasswordEvent event,
     Emitter<AuthState> emit,
   ) async {
@@ -105,24 +101,39 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  Future<void> _checkTokenExpiry(
+  Future<void> _onCheckTokenExpiry(
     CheckTokenExpiryEvent event,
     Emitter<AuthState> emit,
   ) async {
     emit(state.copyWith(authStatus: AuthStatus.loading));
 
-    try {} catch (e) {
+    try {
+      final userSecrets = await _authRepository.checkTokenExpiry();
+
+      if (userSecrets == null) {
+        emit(state.copyWith(authStatus: AuthStatus.unauthenticated));
+      } else {
+        emit(state.copyWith(authStatus: AuthStatus.authenticated));
+      }
+    } catch (e) {
       emit(state.copyWith(authStatus: AuthStatus.error, error: e.toString()));
     }
   }
 
-  Future<void> _logOut(
+  Future<void> _onLogOut(
     LogoutEvent event,
     Emitter<AuthState> emit,
   ) async {
     emit(state.copyWith(authStatus: AuthStatus.loading));
 
-    try {} catch (e) {
+    try {
+      await Future.wait([
+        _authRepository.clearTokens(),
+        UserDataPrefsService.clear(),
+      ]);
+
+      emit(state.copyWith(authStatus: AuthStatus.unauthenticated));
+    } catch (e) {
       emit(state.copyWith(authStatus: AuthStatus.error, error: e.toString()));
     }
   }

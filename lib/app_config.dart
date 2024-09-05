@@ -1,5 +1,4 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:foodka_client/data/services/dio/user_dio_service.dart';
 import 'package:get_it/get_it.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -45,13 +44,9 @@ class AppConfig {
 
     /// registering blocs
     getIt.registerLazySingleton<AuthBloc>(
-      () => AuthBloc(
-        authRepository: getIt.get<AuthRepository>(),
-        userRepository: getIt.get<UserRepository>(),
-      ),
+      () => AuthBloc(authRepository: getIt.get<AuthRepository>()),
     );
   }
 }
 
-final List<BlocProvider> providers = [
-];
+final List<BlocProvider> providers = [];

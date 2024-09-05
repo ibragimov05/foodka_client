@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 
+import '../services.dart';
 import '../../models/models.dart';
 import '../../../core/network/dio_client.dart';
-import '../services.dart';
 
 class UserDioService {
   final DioClient _dioClient = DioClient();
@@ -56,18 +56,12 @@ class UserDioService {
 
       final refreshToken = await _refreshToken;
 
-      if(refreshToken == null) throw 'no refresh token found';
+      if (refreshToken == null) throw 'no refresh token found';
 
-      final response = await _dioClient.post(
+      await _dioClient.post(
         url: 'users.json?auth=$refreshToken',
         data: userAddRequestMap,
       );
-
-      // final Map<String, dynamic> mapData = response.data;
-      //
-      // userAddRequestMap['id'] = mapData['name'];
-
-      // dioResponse.data = User.fromJson(userAddRequestMap);
     } catch (e) {
       debugPrint(e.toString());
 

@@ -1,19 +1,9 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
-
-part 'user.g.dart';
-
-@JsonSerializable()
 class User {
   final String id;
   final String uid;
   final String name;
   final String email;
-  @JsonKey(name: 'phone_number')
   final String phoneNumber;
-
-  // token: user['idToken'],
-  // refreshToken: user['refreshToken'],
-  // expiresIn: DateTime.parse(user['expiresIn']),
 
   const User({
     required this.id,
@@ -23,7 +13,19 @@ class User {
     required this.phoneNumber,
   });
 
-  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
+  factory User.fromJson(Map<String, dynamic> json) => User(
+        id: json['id'] as String? ?? 'null',
+        uid: json['uid'] as String? ?? 'null',
+        name: json['name'] as String? ?? 'null',
+        email: json['email'] as String? ?? 'null',
+        phoneNumber: json['phone_number'] as String? ?? 'null',
+      );
 
-  Map<String, dynamic> toJson() => _$UserToJson(this);
+  Map<String, dynamic> toJson() => <String, dynamic>{
+        'id': id,
+        'uid': uid,
+        'name': name,
+        'email': email,
+        'phone_number': phoneNumber,
+      };
 }

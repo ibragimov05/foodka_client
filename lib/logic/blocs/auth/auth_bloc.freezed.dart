@@ -1027,7 +1027,6 @@ abstract class LogoutEvent implements AuthEvent {
 
 /// @nodoc
 mixin _$AuthState {
-  User? get user => throw _privateConstructorUsedError;
   AuthStatus get authStatus => throw _privateConstructorUsedError;
   String? get error => throw _privateConstructorUsedError;
 
@@ -1043,7 +1042,7 @@ abstract class $AuthStateCopyWith<$Res> {
   factory $AuthStateCopyWith(AuthState value, $Res Function(AuthState) then) =
       _$AuthStateCopyWithImpl<$Res, AuthState>;
   @useResult
-  $Res call({User? user, AuthStatus authStatus, String? error});
+  $Res call({AuthStatus authStatus, String? error});
 }
 
 /// @nodoc
@@ -1061,15 +1060,10 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? user = freezed,
     Object? authStatus = null,
     Object? error = freezed,
   }) {
     return _then(_value.copyWith(
-      user: freezed == user
-          ? _value.user
-          : user // ignore: cast_nullable_to_non_nullable
-              as User?,
       authStatus: null == authStatus
           ? _value.authStatus
           : authStatus // ignore: cast_nullable_to_non_nullable
@@ -1090,7 +1084,7 @@ abstract class _$$AuthStateImplCopyWith<$Res>
       __$$AuthStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({User? user, AuthStatus authStatus, String? error});
+  $Res call({AuthStatus authStatus, String? error});
 }
 
 /// @nodoc
@@ -1106,15 +1100,10 @@ class __$$AuthStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? user = freezed,
     Object? authStatus = null,
     Object? error = freezed,
   }) {
     return _then(_$AuthStateImpl(
-      user: freezed == user
-          ? _value.user
-          : user // ignore: cast_nullable_to_non_nullable
-              as User?,
       authStatus: null == authStatus
           ? _value.authStatus
           : authStatus // ignore: cast_nullable_to_non_nullable
@@ -1130,11 +1119,8 @@ class __$$AuthStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$AuthStateImpl implements _AuthState {
-  const _$AuthStateImpl(
-      {this.user, this.authStatus = AuthStatus.initial, this.error});
+  const _$AuthStateImpl({this.authStatus = AuthStatus.initial, this.error});
 
-  @override
-  final User? user;
   @override
   @JsonKey()
   final AuthStatus authStatus;
@@ -1143,7 +1129,7 @@ class _$AuthStateImpl implements _AuthState {
 
   @override
   String toString() {
-    return 'AuthState(user: $user, authStatus: $authStatus, error: $error)';
+    return 'AuthState(authStatus: $authStatus, error: $error)';
   }
 
   @override
@@ -1151,14 +1137,13 @@ class _$AuthStateImpl implements _AuthState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AuthStateImpl &&
-            (identical(other.user, user) || other.user == user) &&
             (identical(other.authStatus, authStatus) ||
                 other.authStatus == authStatus) &&
             (identical(other.error, error) || other.error == error));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, user, authStatus, error);
+  int get hashCode => Object.hash(runtimeType, authStatus, error);
 
   /// Create a copy of AuthState
   /// with the given fields replaced by the non-null parameter values.
@@ -1170,13 +1155,9 @@ class _$AuthStateImpl implements _AuthState {
 }
 
 abstract class _AuthState implements AuthState {
-  const factory _AuthState(
-      {final User? user,
-      final AuthStatus authStatus,
-      final String? error}) = _$AuthStateImpl;
+  const factory _AuthState({final AuthStatus authStatus, final String? error}) =
+      _$AuthStateImpl;
 
-  @override
-  User? get user;
   @override
   AuthStatus get authStatus;
   @override

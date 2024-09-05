@@ -13,7 +13,7 @@ class AppToast {
         icon: const Icon(Icons.error_outline),
         showIcon: true,
         style: ToastificationStyle.minimal,
-        // autoCloseDuration: const Duration(seconds: 3),
+        autoCloseDuration: const Duration(seconds: 4),
         showProgressBar: true,
       );
 }

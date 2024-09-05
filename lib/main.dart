@@ -13,7 +13,9 @@ void main() async {
   runApp(
     MultiBlocProvider(
       providers: [
-        BlocProvider.value(value: getIt.get<AuthBloc>()),
+        BlocProvider.value(
+          value: getIt.get<AuthBloc>()..add(const AuthEvent.checkTokenExpiry()),
+        ),
       ],
       child: const App(),
     ),

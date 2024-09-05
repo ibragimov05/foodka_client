@@ -1,6 +1,5 @@
 import 'package:formz/formz.dart';
 import 'package:flutter/material.dart';
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../cubit/login_cubit.dart';
@@ -9,12 +8,11 @@ import '../../../widgets/widgets.dart';
 import '../../widgets/auth_widgets.dart';
 import '../../../../logic/blocs/blocs.dart';
 import '../../../../../core/utils/utils.dart';
-import '../../../../navigation/router.gr.dart';
 import '../../../../core/helpers/helpers.dart';
+import '../../../../navigation/app_router.dart';
 
 part 'widgets/login_page_private_widgets.dart';
 
-@RoutePage()
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
 
@@ -76,7 +74,10 @@ class _LoginView extends StatelessWidget {
               Column(
                 children: [
                   ZoomTapAnimation(
-                    onTap: () => context.router.push(const SignupRoute()),
+                    onTap: () => Navigator.pushNamed(
+                      context,
+                      AppRouter.register,
+                    ),
                     child: const Text(
                       'Don\'t have an account? Sign up',
                       style: TextStyle(fontWeight: FontWeight.w600),
