@@ -82,7 +82,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
               email: event.email,
             ),
           ));
-      getIt.get<UserBloc>().add(const UserEvent.get());
 
       emit(state.copyWith(authStatus: AuthStatus.authenticated));
     } catch (e) {

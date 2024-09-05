@@ -5,3 +5,7 @@ extension SizedBoxX on int {
 
   SizedBox get sW => SizedBox(width: toDouble());
 }
+
+extension StringX on String {
+  String get capitalize => this[0].toUpperCase() + substring(1).toLowerCase();
+}

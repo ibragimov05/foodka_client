@@ -70,7 +70,17 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   ) async {
     emit(state.copyWith(userStatus: UserStatus.loading));
 
-    try {} catch (e) {
+    try {
+      final dioResponse = await _userRepository.addUser(
+        userAddRequest: event.userAddRequest,
+      );
+
+      if (dioResponse.isSuccess && dioResponse.errorMessage.isEmpty) {
+        add(const UserEvent.get());
+      } else {
+        throw 'error: {status_code: ${dioResponse.errorStatusCode}, message: ${dioResponse.errorMessage}';
+      }
+    } catch (e) {
       emit(state.copyWith(userStatus: UserStatus.error, error: e.toString()));
     }
   }

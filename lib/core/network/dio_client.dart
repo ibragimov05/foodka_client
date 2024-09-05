@@ -41,6 +41,7 @@ class DioClient {
         queryParameters: queryParams,
         options: options,
       );
+
       return response;
     } catch (e) {
       rethrow;
@@ -58,6 +59,7 @@ class DioClient {
         url,
         data: data ?? formData,
       );
+
       return response;
     } catch (e) {
       rethrow;
@@ -73,6 +75,7 @@ class DioClient {
         url,
         data: data,
       );
+
       return response;
     } catch (e) {
       rethrow;
@@ -82,8 +85,6 @@ class DioClient {
   Future<Response> delete({required String url}) async {
     try {
       return await _dio.delete(url);
-    } on DioException {
-      rethrow;
     } catch (e) {
       rethrow;
     }

@@ -13,7 +13,13 @@ class UserDioService {
     final DioResponse dioResponse = DioResponse();
 
     try {
-      final response = await _dioClient.get(url: 'users');
+      final refreshToken = await _refreshToken;
+
+      if (refreshToken == null) throw 'no refresh token found';
+
+      final response = await _dioClient.get(
+        url: 'users.json?auth=$refreshToken',
+      );
 
       final Map<String, dynamic> usersMap = response.data;
 
@@ -51,6 +57,7 @@ class UserDioService {
   /// Add user to database
   Future<DioResponse> addUser({required UserAddRequest userAddRequest}) async {
     final DioResponse dioResponse = DioResponse();
+
     try {
       final userAddRequestMap = userAddRequest.toMap();
 

@@ -100,6 +100,17 @@ class $AssetsIconsGen {
       ];
 }
 
+class $AssetsImagesGen {
+  const $AssetsImagesGen();
+
+  /// File path: assets/images/announcement.png
+  AssetGenImage get announcement =>
+      const AssetGenImage('assets/images/announcement.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [announcement];
+}
+
 class $AssetsIconsFoodGen {
   const $AssetsIconsFoodGen();
 
@@ -259,6 +270,7 @@ class Assets {
 
   static const String aEnv = '.env';
   static const $AssetsIconsGen icons = $AssetsIconsGen();
+  static const $AssetsImagesGen images = $AssetsImagesGen();
 
   /// List of all assets
   static List<String> get values => [aEnv];

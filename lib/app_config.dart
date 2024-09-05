@@ -1,4 +1,4 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:foodka_client/features/main/cubit/tab_box_cubit.dart';
 import 'package:get_it/get_it.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -41,12 +41,14 @@ class AppConfig {
     /// registering cubits
     getIt.registerLazySingleton<LoginCubit>(() => LoginCubit());
     getIt.registerLazySingleton<SignUpCubit>(() => SignUpCubit());
+    getIt.registerLazySingleton(() => TabBoxCubit());
 
     /// registering blocs
     getIt.registerLazySingleton<AuthBloc>(
       () => AuthBloc(authRepository: getIt.get<AuthRepository>()),
     );
+    getIt.registerLazySingleton<UserBloc>(
+      () => UserBloc(userRepository: getIt.get<UserRepository>()),
+    );
   }
 }
-
-final List<BlocProvider> providers = [];

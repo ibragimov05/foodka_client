@@ -10,4 +10,5 @@ class AppAssets {
   static const $AssetsIconsGen icons = $AssetsIconsGen();
   static const $AssetsIconsFoodGen foods = $AssetsIconsFoodGen();
   static const $AssetsIconsTabBoxGen tabBox = $AssetsIconsTabBoxGen();
+  static const $AssetsImagesGen images = $AssetsImagesGen();
 }

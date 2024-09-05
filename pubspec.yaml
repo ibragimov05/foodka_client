@@ -72,6 +72,7 @@ flutter:
     - assets/icons/
     - assets/icons/tab_box/
     - assets/icons/food/
+    - assets/images/
     - .env
 
   fonts:
