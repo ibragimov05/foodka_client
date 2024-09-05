@@ -25,4 +25,3 @@ class AuthRepository {
   Future<UserSecrets?> checkTokenExpiry() async =>
       _authDioService.checkTokenExpiry();
 }
-

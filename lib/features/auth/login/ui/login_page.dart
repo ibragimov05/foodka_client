@@ -1,15 +1,16 @@
-import 'package:auto_route/auto_route.dart';
-import 'package:foodka_client/logic/blocs/auth/auth_bloc.dart';
-import 'package:foodka_client/navigation/router.gr.dart';
 import 'package:formz/formz.dart';
 import 'package:flutter/material.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../cubit/login_cubit.dart';
 import '../../../../app_config.dart';
 import '../../../widgets/widgets.dart';
 import '../../widgets/auth_widgets.dart';
+import '../../../../logic/blocs/blocs.dart';
 import '../../../../../core/utils/utils.dart';
+import '../../../../navigation/router.gr.dart';
+import '../../../../core/helpers/helpers.dart';
 
 part 'widgets/login_page_private_widgets.dart';
 
@@ -20,7 +21,17 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => BlocProvider.value(
         value: getIt.get<LoginCubit>(),
-        child: _LoginView(),
+        child: BlocListener<AuthBloc, AuthState>(
+          listener: (context, authState) {
+            if (authState.authStatus == AuthStatus.error) {
+              AppToast.error(
+                errorMessage: authState.error ?? 'error',
+                context: context,
+              );
+            }
+          },
+          child: _LoginView(),
+        ),
       );
 }
 

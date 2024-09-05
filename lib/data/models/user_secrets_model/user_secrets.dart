@@ -18,7 +18,9 @@ class UserSecrets {
         email: json['email'] as String,
         idToken: json['idToken'] as String,
         refreshToken: json['refreshToken'] as String,
-        expiresIn: DateTime.parse(json['expiresIn'] as String),
+        expiresIn: json['expiresIn'] is String
+            ? DateTime.parse(json['expiresIn'] as String)
+            : json['expiresIn'] as DateTime,
       );
 
   Map<String, dynamic> toJson() => {
@@ -28,4 +30,8 @@ class UserSecrets {
         'refreshToken': refreshToken,
         'expiresIn': expiresIn.toIso8601String(),
       };
+
+  @override
+  String toString() =>
+      'UserSecrets(localId: $localId, email: $email, idToken: $idToken, refreshToken: $refreshToken, expiresIn: $expiresIn)';
 }

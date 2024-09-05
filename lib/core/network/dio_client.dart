@@ -1,8 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:talker_dio_logger/talker_dio_logger.dart';
 
-import '../../data/services/shared_prefs/user_secrets_prefs_service.dart';
 
 class DioClient {
   final _dio = Dio();
@@ -13,10 +11,18 @@ class DioClient {
       ..options.connectTimeout = const Duration(seconds: 10)
       ..options.receiveTimeout = const Duration(seconds: 10)
       ..options.responseType = ResponseType.json
-      ..interceptors.add(DioInterceptor())
       ..interceptors.add(
         TalkerDioLogger(
-          settings: const TalkerDioLoggerSettings(),
+          settings: const TalkerDioLoggerSettings(
+            printRequestHeaders: true,
+            printResponseHeaders: true,
+            printResponseMessage: true,
+            printErrorData: true,
+            printErrorHeaders: true,
+            printErrorMessage: true,
+            printRequestData: true,
+            printResponseData: true,
+          ),
         ),
       );
   }
@@ -85,31 +91,3 @@ class DioClient {
   }
 }
 
-/// [DioInterceptor] for [DioClient]
-class DioInterceptor extends Interceptor {
-  @override
-  void onRequest(
-    RequestOptions options,
-    RequestInterceptorHandler handler,
-  ) async {
-    final accessToken = await UserSecretsLocalStorageService.idToken;
-
-    if (accessToken == null) return;
-
-    options.baseUrl = '${options.baseUrl}.json?auth=$accessToken';
-
-    handler.next(options);
-  }
-
-  @override
-  void onResponse(Response response, ResponseInterceptorHandler handler) {
-    debugPrint("INTERCEPTOR: response.data: ${response.data}");
-    handler.next(response);
-  }
-
-  @override
-  void onError(DioException err, ErrorInterceptorHandler handler) {
-    debugPrint("INTERCEPTOR: error: ${err.response?.data}");
-    handler.next(err);
-  }
-}

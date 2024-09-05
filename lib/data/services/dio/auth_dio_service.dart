@@ -33,8 +33,18 @@ class AuthDioService {
       );
 
       if (response.statusCode == 200) {
-        final user = UserSecrets.fromJson(response.data);
+        response.data['expiresIn'] = DateTime.now().add(
+          Duration(
+            seconds: int.parse(response.data['expiresIn']),
+          ),
+        );
+
+        final user = UserSecrets.fromJson(
+          response.data,
+        );
+
         await _localStorageService.saveUserSecrets(jsonEncode(user.toJson()));
+
         return user;
       } else {
         throw Exception(response.data['error']['message']);
@@ -42,7 +52,7 @@ class AuthDioService {
     } on DioException catch (e) {
       final errorMessage =
           e.response?.data['error']['message'] ?? 'An error occurred';
-      throw Exception(errorMessage);
+      throw 'error: $errorMessage';
     } catch (e) {
       throw Exception('Unexpected error: ${e.toString()}');
     }
@@ -52,25 +62,23 @@ class AuthDioService {
   Future<UserSecrets> register({
     required String email,
     required String password,
-  }) async {
-    return _authenticate(
-      email: email,
-      password: password,
-      query: "signUp",
-    );
-  }
+  }) async =>
+      _authenticate(
+        email: email,
+        password: password,
+        query: "signUp",
+      );
 
   /// login user
   Future<UserSecrets> login({
     required String email,
     required String password,
-  }) async {
-    return _authenticate(
-      email: email,
-      password: password,
-      query: "signInWithPassword",
-    );
-  }
+  }) async =>
+      _authenticate(
+        email: email,
+        password: password,
+        query: "signInWithPassword",
+      );
 
   Future<void> clearTokens() async => _localStorageService.clearUserSecrets();
 
@@ -122,4 +130,5 @@ class AuthDioService {
       throw Exception('Unexpected error: ${e.toString()}');
     }
   }
+
 }

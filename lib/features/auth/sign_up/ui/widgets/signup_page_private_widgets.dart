@@ -86,16 +86,26 @@ class _SignupButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isValid = context.select(
-      (SignUpCubit cubit) => cubit.state.isValid,
+    final authStatus = context.select(
+      (AuthBloc cubit) => cubit.state.authStatus,
     );
 
-    final isInProgress = context.select(
-      (SignUpCubit cubit) => cubit.state.status.isInProgress,
+    if (authStatus == AuthStatus.loading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    final signUpCubitState = context.select(
+      (SignUpCubit cubit) => cubit.state,
     );
 
     return FoodkaButton(
-      onTap: !isValid || isInProgress ? null : () {},
+      onTap: signUpCubitState.isValid
+          ? () => context.read<AuthBloc>().add(AuthEvent.signup(
+                name: signUpCubitState.name.value,
+                email: signUpCubitState.email.value,
+                password: signUpCubitState.password.value,
+              ))
+          : null,
       buttonLabel: 'Sign up',
     );
   }

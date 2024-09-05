@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:toastification/toastification.dart';
 
 import '../theme/theme.dart';
 import '../navigation/router.dart';
@@ -15,11 +16,13 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      debugShowCheckedModeBanner: false,
-      theme: FoodkaTheme.light,
-      darkTheme: FoodkaTheme.dark,
-      routerConfig: _appRouter.config(),
+    return ToastificationWrapper(
+      child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
+        theme: FoodkaTheme.light,
+        darkTheme: FoodkaTheme.dark,
+        routerConfig: _appRouter.config(),
+      ),
     );
   }
 }

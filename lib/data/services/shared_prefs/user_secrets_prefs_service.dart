@@ -29,7 +29,7 @@ class UserSecretsLocalStorageService {
   }
 
   /// Method to get user's token
-  static Future<String?> get idToken async {
+  static Future<String?> get refreshToken async {
     final data = await _secureStorage.read(key: _tokenKey);
 
     if (data == null) return null;

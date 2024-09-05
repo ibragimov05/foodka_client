@@ -1,11 +1,14 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 
 import '../../models/models.dart';
 import '../../../core/network/dio_client.dart';
+import '../services.dart';
 
 class UserDioService {
   final DioClient _dioClient = DioClient();
 
+  /// Get user data by user [uid] and [email]
   Future<DioResponse> getUser({required UserGetRequest userGetRequest}) async {
     final DioResponse dioResponse = DioResponse();
 
@@ -45,5 +48,47 @@ class UserDioService {
     return dioResponse;
   }
 
-  // Future<DioResponse> addUser
+  /// Add user to database
+  Future<DioResponse> addUser({required UserAddRequest userAddRequest}) async {
+    final DioResponse dioResponse = DioResponse();
+    try {
+      final userAddRequestMap = userAddRequest.toMap();
+
+      final refreshToken = await _refreshToken;
+
+      if(refreshToken == null) throw 'no refresh token found';
+
+      final response = await _dioClient.post(
+        url: 'users.json?auth=$refreshToken',
+        data: userAddRequestMap,
+      );
+
+      // final Map<String, dynamic> mapData = response.data;
+      //
+      // userAddRequestMap['id'] = mapData['name'];
+
+      // dioResponse.data = User.fromJson(userAddRequestMap);
+    } catch (e) {
+      debugPrint(e.toString());
+
+      dioResponse.isSuccess = false;
+
+      if (e is DioException) {
+        dioResponse.errorMessage = e.response?.data ?? 'error';
+        dioResponse.errorStatusCode = e.response?.statusCode;
+      } else {
+        dioResponse.errorMessage = e.toString();
+      }
+    }
+
+    return dioResponse;
+  }
+
+  Future<String?> get _refreshToken async {
+    final refreshToken = await UserSecretsLocalStorageService.refreshToken;
+
+    if (refreshToken == null) return null;
+
+    return refreshToken;
+  }
 }

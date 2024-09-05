@@ -4,7 +4,7 @@ class DioResponse {
   int? errorStatusCode;
   String errorMessage;
 
-   DioResponse({
+  DioResponse({
     this.data,
     this.isSuccess = true,
     this.errorStatusCode,

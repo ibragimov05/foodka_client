@@ -1,3 +1,5 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:foodka_client/data/services/dio/user_dio_service.dart';
 import 'package:get_it/get_it.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -23,6 +25,7 @@ class AppConfig {
         await SharedPreferences.getInstance();
     const FlutterSecureStorage secureStorage = FlutterSecureStorage();
     final AuthDioService authDioService = AuthDioService();
+    final UserDioService userDioService = UserDioService();
 
     /// registering local storages
     getIt.registerLazySingleton<FlutterSecureStorage>(() => secureStorage);
@@ -32,6 +35,9 @@ class AppConfig {
     getIt.registerLazySingleton<AuthRepository>(
       () => AuthRepository(authDioService: authDioService),
     );
+    getIt.registerLazySingleton<UserRepository>(
+      () => UserRepository(userDioService: userDioService),
+    );
 
     /// registering cubits
     getIt.registerLazySingleton<LoginCubit>(() => LoginCubit());
@@ -39,7 +45,13 @@ class AppConfig {
 
     /// registering blocs
     getIt.registerLazySingleton<AuthBloc>(
-      () => AuthBloc(authRepository: getIt.get<AuthRepository>()),
+      () => AuthBloc(
+        authRepository: getIt.get<AuthRepository>(),
+        userRepository: getIt.get<UserRepository>(),
+      ),
     );
   }
 }
+
+final List<BlocProvider> providers = [
+];

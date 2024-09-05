@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:formz/formz.dart';
+import 'package:foodka_client/logic/blocs/auth/auth_bloc.dart';
 
 import '../cubit/sign_up_cubit.dart';
 import '../../../../app_config.dart';

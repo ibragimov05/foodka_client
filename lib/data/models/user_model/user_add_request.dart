@@ -11,5 +11,10 @@ class UserAddRequest {
     this.phoneNumber,
   });
 
-  Map<String, dynamic> toJson() => <String, dynamic>{};
+  Map<String, dynamic> toMap() => <String, dynamic>{
+        'uid': uid,
+        'name': name,
+        'email': email,
+        'phone_number': phoneNumber ?? 'null',
+      };
 }
