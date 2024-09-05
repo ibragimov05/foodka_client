@@ -6,7 +6,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../shared_prefs/user_secrets_prefs_service.dart';
 import '../../models/user_secrets_model/user_secrets.dart';
 
-class AuthenticationRepository {
+class AuthDioService {
   final Dio _dio = Dio();
   final UserSecretsLocalStorageService _localStorageService =
       UserSecretsLocalStorageService();
@@ -75,18 +75,17 @@ class AuthenticationRepository {
   Future<void> clearTokens() async => _localStorageService.clearUserSecrets();
 
   Future<UserSecrets?> checkTokenExpiry() async {
-    final userSecrets = await _localStorageService.getUserSecrets();
+    final userSecrets = await _localStorageService.userSecrets;
 
     if (userSecrets == null) return null;
 
-    final user = jsonDecode(userSecrets);
-    final expiryDate = DateTime.parse(user['expiresIn']);
-
-    if (DateTime.now().isBefore(expiryDate)) {
-      return UserSecrets.fromJson(user);
+    if (DateTime.now().isBefore(userSecrets.expiresIn)) {
+      return userSecrets;
     } else {
-      final updatedUser = await _refreshToken(user);
+      final updatedUser = await _refreshToken(userSecrets.toJson());
+
       await _localStorageService.saveUserSecrets(jsonEncode(updatedUser));
+
       return UserSecrets.fromJson(updatedUser);
     }
   }

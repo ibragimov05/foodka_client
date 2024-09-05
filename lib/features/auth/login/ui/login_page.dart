@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:foodka_client/logic/blocs/auth/auth_bloc.dart';
 import 'package:foodka_client/navigation/router.gr.dart';
 import 'package:formz/formz.dart';
 import 'package:flutter/material.dart';

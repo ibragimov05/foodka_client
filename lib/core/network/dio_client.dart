@@ -2,6 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:talker_dio_logger/talker_dio_logger.dart';
 
+import '../../data/services/shared_prefs/user_secrets_prefs_service.dart';
+
 class DioClient {
   final _dio = Dio();
 
@@ -87,18 +89,14 @@ class DioClient {
 class DioInterceptor extends Interceptor {
   @override
   void onRequest(
-      RequestOptions options, RequestInterceptorHandler handler) async {
-    // final accessToken = await UserSecretsLocalStorageService.();
-    //
-    // if (accessToken != null) {
-    //   options.baseUrl = '.json${options.baseUrl}?auth=$accessToken';
-    //   // options.headers['Authorization'] = "Bearer $accessToken";
-    // }
-    //
-    // if (options.connectTimeout != null &&
-    //     options.connectTimeout! < const Duration(milliseconds: 300)) {
-    //   options.connectTimeout = const Duration(milliseconds: 300);
-    // }
+    RequestOptions options,
+    RequestInterceptorHandler handler,
+  ) async {
+    final accessToken = await UserSecretsLocalStorageService.idToken;
+
+    if (accessToken == null) return;
+
+    options.baseUrl = '${options.baseUrl}.json?auth=$accessToken';
 
     handler.next(options);
   }
