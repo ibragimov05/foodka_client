@@ -11,7 +11,10 @@ class _AppBar extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              AppAssets.icons.map.svg(),
+              GestureDetector(
+                onTap: () => Navigator.pushNamed(context, AppRouter.yandexMap),
+                child: AppAssets.icons.map.svg(),
+              ),
               const Column(
                 children: [
                   Text(

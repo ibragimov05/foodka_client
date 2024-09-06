@@ -107,8 +107,15 @@ class $AssetsImagesGen {
   AssetGenImage get announcement =>
       const AssetGenImage('assets/images/announcement.png');
 
+  /// File path: assets/images/route_start.png
+  AssetGenImage get routeStart =>
+      const AssetGenImage('assets/images/route_start.png');
+
+  /// File path: assets/images/user.png
+  AssetGenImage get user => const AssetGenImage('assets/images/user.png');
+
   /// List of all assets
-  List<AssetGenImage> get values => [announcement];
+  List<AssetGenImage> get values => [announcement, routeStart, user];
 }
 
 class $AssetsIconsFoodGen {

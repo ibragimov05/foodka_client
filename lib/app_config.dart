@@ -16,6 +16,8 @@ class AppConfig {
   static Future<void> setUp() async {
     await dotenv.load(fileName: '.env');
 
+    await LocationService.checkPermissions();
+
     await _dependencySetUp();
   }
 

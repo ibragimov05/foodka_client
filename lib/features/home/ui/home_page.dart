@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:carousel_slider_plus/carousel_slider_plus.dart';
 import 'package:foodka_client/data/models/models.dart';
+import 'package:foodka_client/navigation/app_router.dart';
 
 import 'widgets/widgets.dart';
 import '../../../core/utils/utils.dart';

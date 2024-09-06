@@ -51,6 +51,10 @@ dependencies:
   flutter_dotenv: ^5.1.0
   flutter_secure_storage: ^9.2.2
 
+  geolocator: ^13.0.1
+  yandex_mapkit: ^4.1.0
+  permission_handler: ^11.3.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -12,7 +12,10 @@ class FoodkaTheme {
   static ThemeData get light => ThemeData(
         fontFamily: FontFamily.yandexSans,
         scaffoldBackgroundColor: Colors.white,
-        appBarTheme: const AppBarTheme(color: Colors.white),
+        appBarTheme: const AppBarTheme(
+          color: Colors.white,
+          centerTitle: true,
+        ),
         textSelectionTheme: TextSelectionThemeData(
           cursorColor: AppColors.brand400,
           selectionHandleColor: AppColors.brand400,
