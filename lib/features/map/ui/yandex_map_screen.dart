@@ -5,8 +5,8 @@ import 'package:geolocator/geolocator.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 import 'package:foodka_client/core/utils/utils.dart';
 
-import '../../../data/services/services.dart';
 import 'widgets/widgets.dart';
+import '../../../data/services/services.dart';
 
 class MapScreen extends StatefulWidget {
   const MapScreen({super.key});
@@ -66,7 +66,6 @@ class _MapScreenState extends State<MapScreen> {
     );
   }
 
-
   void _onMyLocationTapped() {
     if (_userCurrentPosition != null || _yandexMapController != null) {
       _yandexMapController!.moveCamera(
@@ -77,14 +76,10 @@ class _MapScreenState extends State<MapScreen> {
     }
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('New address'),
-      ),
+      appBar: AppBar(title: const Text('New address')),
       body: Column(
         children: [
           GestureDetector(

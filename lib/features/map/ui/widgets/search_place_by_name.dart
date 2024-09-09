@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 class SearchPlaceByName extends SearchDelegate<String?> {
-  List _suggestionList = [];
   final TextEditingController _searchTextController = TextEditingController();
-
 
   @override
   Widget buildLeading(BuildContext context) {

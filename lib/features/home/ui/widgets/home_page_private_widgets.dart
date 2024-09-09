@@ -82,7 +82,7 @@ class _TopCategoriesListView extends StatelessWidget {
           boxShadow: [
             BoxShadow(
               color: AppColors.foodkaWhite,
-              blurRadius:10,
+              blurRadius: 10,
               spreadRadius: 20,
             ),
           ],

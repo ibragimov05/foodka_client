@@ -1,7 +1,7 @@
 class Description {
- final  String uz;
- final  String ru;
- final  String en;
+  final String uz;
+  final String ru;
+  final String en;
 
   const Description({
     required this.uz,
@@ -10,14 +10,14 @@ class Description {
   });
 
   factory Description.fromJson(Map<String, dynamic> json) => Description(
-      uz: json['uz'],
-      ru: json['ru'],
-      en: json['en'],
-    );
+        uz: json['uz'],
+        ru: json['ru'],
+        en: json['en'],
+      );
 
   Map<String, dynamic> toJson() => {
-      'uz': uz,
-      'ru': ru,
-      'en': en,
-    };
+        'uz': uz,
+        'ru': ru,
+        'en': en,
+      };
 }

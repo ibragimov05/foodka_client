@@ -3,9 +3,9 @@ import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 class YandexMapService {
   static Future<List<MapObject>> getDirection(
-      Point from,
-      Point to,
-      ) async {
+    Point from,
+    Point to,
+  ) async {
     final result = await YandexDriving.requestRoutes(
       points: [
         RequestPoint(point: from, requestPointType: RequestPointType.wayPoint),
